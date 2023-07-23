@@ -1,5 +1,6 @@
 import {APIKEY_WEATHER_API} from "./ApiCreds";
 import getCurrentWeather from "./ApiCurrentWeather";
+import getForecast from "./Apiforecast";
 
 function removeSidebarChilds(){
   const selectionsContainer = document.querySelector("#selectionsContainer");  
@@ -52,6 +53,6 @@ async function callCurrentWeather(e){
   const selectionsContainer = document.querySelector("#selectionsContainer");
   selectionsContainer.classList.remove("deploy");
   removeSidebarChilds();
-  await getCurrentWeather(valueToSearch)
+  await getForecast(valueToSearch)
 }
 

@@ -1,3 +1,4 @@
+/*
 import {APIKEY_WEATHER_API} from "./ApiCreds";
 import {imagesDay, imagesNight} from "./imageLoader";
 
@@ -74,3 +75,5 @@ async function renderLocation(currentWeatherLocation){
   }
   
 }
+
+*/

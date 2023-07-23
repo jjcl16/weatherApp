@@ -1,5 +1,5 @@
 import searchLocation from "./ApiSearchLocation";
-import getCurrentWeather from "./ApiCurrentWeather";
+//import getCurrentWeather from "./ApiCurrentWeather";
 import getForecast from "./Apiforecast";
 
 export default function createDom(){
@@ -68,6 +68,8 @@ export default function createDom(){
     
     const temp = document.createElement("div");
     temp.setAttribute("id","temp");
+
+    
  
 
     currentInfoContainer.appendChild(weatherImage);
@@ -79,6 +81,9 @@ export default function createDom(){
   
 
     /** Rigth side info container */    
+    const rainChance = document.createElement("div");
+    rainChance.setAttribute("id","rainChance");
+
     const additionalInfo = document.createElement("div");
     additionalInfo.setAttribute("id", "additionalInfo");
 
@@ -92,6 +97,7 @@ export default function createDom(){
     const windVelocity = document.createElement("div");
     windVelocity.setAttribute("id", "windVelocity");
 
+    additionalInfo.appendChild(rainChance);
     additionalInfo.appendChild(realFeel);
     additionalInfo.appendChild(humidity);
     additionalInfo.appendChild(windDir);
@@ -109,11 +115,37 @@ export default function createDom(){
   body.appendChild(footer);
 
 
+  /** Switch daily / hours  */
+
+  const switchDH = document.createElement("div");
+  switchDH.setAttribute("id", "switchDH");
+
+    const switchSelectorDH = document.createElement("div");
+    switchSelectorDH.setAttribute("id","switchSelectorDH");    
+
+    const switchDay = document.createElement("div");
+    switchDay.setAttribute("id", "switchDay");
+    switchDay.addEventListener("click",selectDays);
+    switchDay.textContent = "Daily";
+
+    const switchHour = document.createElement("div");
+    switchHour.setAttribute("id", "switchHour");
+    switchHour.addEventListener("click",selectHours);
+    switchHour.textContent = "Hours";
+
+    
+    switchDH.appendChild(switchDay);
+    switchDH.appendChild(switchSelectorDH);
+    switchDH.appendChild(switchHour);
+
+    footer.appendChild(switchDH);
+
+
 /** Default config */
   //then i think to implementate an ip location.
   localStorage.firstUrlLocation = "puerto-ordaz-bolivar-venezuela"; 
   switchSelector.value = "C"; //first celsius
-  getCurrentWeather(localStorage.firstUrlLocation);
+  //getCurrentWeather(localStorage.firstUrlLocation);
   getForecast(localStorage.firstUrlLocation);
 
 }
@@ -122,12 +154,21 @@ function selectFarenheit(){
   const switchSelector = document.querySelector("#switchSelector");
   switchSelector.classList.add("farenheit");
   switchSelector.value = "F";
-  getCurrentWeather(localStorage.lastLocationShowed);
+  getForecast(localStorage.lastLocationShowed);
 }
 
 function selectCelsius(){
   const switchSelector = document.querySelector("#switchSelector");
   switchSelector.value = "C";
   switchSelector.classList.remove("farenheit");
-  getCurrentWeather(localStorage.lastLocationShowed);
+  getForecast(localStorage.lastLocationShowed);
+}
+
+function selectHours(){
+  const switchSelector = document.querySelector("#switchSelectorDH");
+  switchSelector.classList.add("hours");
+}
+function selectDays(){
+  const switchSelector = document.querySelector("#switchSelectorDH");
+  switchSelector.classList.remove("hours");
 }

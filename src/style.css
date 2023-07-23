@@ -35,9 +35,9 @@ body {
   text-align: center;
 }
 
-#switchCF {
+#switchCF, #switchDH {
   display: flex;
-  width: 9vw;
+  width: 15vw;
   height: 5vh;
   justify-content: space-between;
   align-items: center;
@@ -45,11 +45,11 @@ body {
   border-radius: 8px;
   background-color: rgba(0,0,0,0.1);  
   z-index: 1;
-  gap: 1%;
+  gap: 2%;
   position: relative;
 }
 
-#switchCelsius , #switchFarenheit{
+#switchCelsius , #switchFarenheit, #switchHour, #switchDay{
   display: flex;
   height: 6vh;
   width: 50%;
@@ -58,25 +58,28 @@ body {
   cursor: pointer;
 }
 
-#switchSelector{
+#switchSelector, #switchSelectorDH{
   position: absolute;
   left: 0%;
   border-radius: 8px;
   height: 5.5vh;
-  width: 4.5vw;
+  width: 50%;
   transition: left 0.3s;
   cursor: pointer;
   background-color: rgba(0,0,0,0.2);
   z-index: 2;  
 }
 
-#switchSelector.farenheit{
+
+
+#switchSelector.farenheit, #switchSelectorDH.hours{
   left: 50%;
 }
 
 img{
   height: 100px;
   width: 100px;
+  border: none;
 }
 
 #dashboard{
@@ -103,6 +106,7 @@ img{
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 30%;
 
 }
 
@@ -129,4 +133,13 @@ img{
   border-radius: 8px;
   padding: 0.5%;
   margin: 0.5%;
+}
+
+#additionalInfo{
+  width: 30%;
+  padding-left: 10%;
+}
+
+#switchDH{
+   margin-left: 8%;
 }
