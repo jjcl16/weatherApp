@@ -121,7 +121,8 @@ export default function createDom(){
   switchDH.setAttribute("id", "switchDH");
 
     const switchSelectorDH = document.createElement("div");
-    switchSelectorDH.setAttribute("id","switchSelectorDH");    
+    switchSelectorDH.setAttribute("id","switchSelectorDH");  
+    switchSelectorDH.value = "D";  
 
     const switchDay = document.createElement("div");
     switchDay.setAttribute("id", "switchDay");
@@ -139,6 +140,10 @@ export default function createDom(){
     switchDH.appendChild(switchHour);
 
     footer.appendChild(switchDH);
+
+  const forecastConteiner = document.createElement("div");
+    forecastConteiner.setAttribute("id", "forecastConteiner");
+    footer.appendChild(forecastConteiner);
 
 
 /** Default config */
@@ -165,10 +170,14 @@ function selectCelsius(){
 }
 
 function selectHours(){
-  const switchSelector = document.querySelector("#switchSelectorDH");
-  switchSelector.classList.add("hours");
+  const switchSelectorDH = document.querySelector("#switchSelectorDH");
+  switchSelectorDH.classList.add("hours");
+  switchSelectorDH.value = "H";
+  getForecast(localStorage.lastLocationShowed);
 }
 function selectDays(){
-  const switchSelector = document.querySelector("#switchSelectorDH");
-  switchSelector.classList.remove("hours");
+  const switchSelectorDH = document.querySelector("#switchSelectorDH");
+  switchSelectorDH.classList.remove("hours");
+  switchSelectorDH.value = "D";
+  getForecast(localStorage.lastLocationShowed);
 }

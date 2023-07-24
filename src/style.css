@@ -76,7 +76,7 @@ body {
   left: 50%;
 }
 
-img{
+#weatherImage{
   height: 100px;
   width: 100px;
   border: none;
@@ -96,9 +96,11 @@ img{
 }
 
 #footer{
-
+  display: flex;
+  flex-direction: column;
   height: 30vh;
   width: 100%;
+  align-items: center;
 }
 
 #currentInfoContainer {
@@ -142,4 +144,27 @@ img{
 
 #switchDH{
    margin-left: 8%;
+}
+
+#forecastConteiner{
+  display: flex;
+  height: 25vh;
+  width: 80vw;
+  overflow-x: auto;
+  overflow-y: none;
+  gap: 2px;
+  
+}
+
+.forecastElement{
+  flex: 0 0 150px;
+  height: 18vh;
+  border: 1px solid black;
+  margin: auto;
+}
+
+img {
+  height: 50px;
+  width: 50px;
+  border: none;
 }

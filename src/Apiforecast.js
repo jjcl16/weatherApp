@@ -1,3 +1,5 @@
+//import { Console } from "console";
+import DateTime from "node-datetime/src/datetime";
 import {APIKEY_WEATHER_API} from "./ApiCreds";
 import {imagesDay, imagesNight} from "./imageLoader";
 
@@ -19,7 +21,7 @@ export default async function getForecast(urlLocation){
     renderForecast(forecast.forecast);
     renderCurrentWeather(forecast.current);
     renderLocation(forecast.location);
-
+    console.log(forecast.forecast);
   }catch (error){
     console.log(error)
   }  
@@ -37,7 +39,7 @@ async function renderCurrentWeather(currentWeather){
     const windDir = document.querySelector("#windDir");
     const windVelocity = document.querySelector("#windVelocity");
     
-    humidity.textContent = `Humidity: ${currentWeather.humidity}%.`;
+    humidity.textContent = `Humidity: ${currentWeather.humidity}%`;
     windDir.textContent = `Wind direction: ${currentWeather.wind_dir}`;
     windVelocity.textContent = `Wind direction: ${currentWeather.wind_kph} km/h`;
 
@@ -74,7 +76,7 @@ async function renderCurrentWeather(currentWeather){
   
 }
 
-async function renderLocation(currentWeatherLocation){
+function renderLocation(currentWeatherLocation){
   try{
     const location = document.querySelector("#weatherLocation");
     location.textContent = `${currentWeatherLocation.name}, ${currentWeatherLocation.country}.`;
@@ -86,5 +88,47 @@ async function renderLocation(currentWeatherLocation){
 
 async function renderForecast(forecast){
   const rainChance = document.querySelector("#rainChance");
-  rainChance.textContent = `Rain chance: ${forecast.forecastday[0].day.daily_chance_of_rain}%`
+  const arrayOfForecast = forecast.forecastday;
+  rainChance.textContent = `Rain chance: ${arrayOfForecast[0].day.daily_chance_of_rain}%`
+  console.log(arrayOfForecast);
+  const switchSelectorDH = document.querySelector("#switchSelectorDH");
+  const dailyOrHours = switchSelectorDH.value;
+  const forecastConteiner = document.querySelector("#forecastConteiner");
+  const switchSelector = document.querySelector("#switchSelector");
+  
+  if (dailyOrHours == "D") {
+    await  arrayOfForecast.forEach( (day) => {
+      console.log(day.day);
+      const newDay = document.createElement("div");
+      newDay.classList.add("forecastElement");
+
+      const maxTemp = document.createElement("div");
+      maxTemp.classList.add("maxTemp");
+      const minTemp = document.createElement("div");
+      minTemp.classList.add("minTemp");
+      if( switchSelector.value == "C"){
+        maxTemp.textContent = `Max temp: ${day.day.maxtemp_c} ºC`;
+        minTemp.textContent = `Min temp: ${day.day.mintemp_c} ºC`;
+      }else if (switchSelector.value == "F"){
+        maxTemp.textContent = `Max temp: ${day.day.maxtemp_f} ºF`;
+        minTemp.textContent = `Min temp: ${day.day.mintemp_f} ºF`;
+      }      
+      const image = new Image;
+      image.src = "";
+
+      let ImageIcon = day.day.condition.icon;
+      ImageIcon = ImageIcon.split("/");
+      const imageSrc = imagesDay[ImageIcon[ImageIcon.length - 1]].default;
+      image.src = imageSrc;
+      
+      newDay.appendChild(image);
+      newDay.appendChild(maxTemp);
+      newDay.appendChild(minTemp);
+      forecastConteiner.appendChild(newDay);
+    } );
+
+    console.log("Daily");
+  } else if (dailyOrHours == "H") {
+    console.log("Hours");
+  }
 }

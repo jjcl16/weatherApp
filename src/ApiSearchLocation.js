@@ -1,5 +1,5 @@
 import {APIKEY_WEATHER_API} from "./ApiCreds";
-import getCurrentWeather from "./ApiCurrentWeather";
+//import getCurrentWeather from "./ApiCurrentWeather";
 import getForecast from "./Apiforecast";
 
 function removeSidebarChilds(){
