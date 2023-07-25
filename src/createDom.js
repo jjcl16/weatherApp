@@ -2,6 +2,7 @@ import searchLocation from "./ApiSearchLocation";
 //import getCurrentWeather from "./ApiCurrentWeather";
 import getForecast from "./Apiforecast";
 import background from "./assets/images/background.jpg";
+import {removeDefaultEvents} from "./domHelpers";
 
 export default function createDom(){
   const body = document.querySelector("body");
@@ -156,6 +157,8 @@ export default function createDom(){
   switchSelector.value = "C"; //first celsius
   //getCurrentWeather(localStorage.firstUrlLocation);
   getForecast(localStorage.firstUrlLocation);
+
+  removeDefaultEvents();
 
 }
 

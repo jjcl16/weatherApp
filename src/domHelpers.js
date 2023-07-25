@@ -4,3 +4,12 @@ export default function removeChilds(selector){
     container.removeChild(container.lastChild);
   }  
 }
+
+export function removeDefaultEvents(){
+  const allElements = document.querySelectorAll("div");
+  allElements.forEach(element => {
+    element.addEventListener("touch", function (e) {
+      e.preventDefault();
+  });
+  });
+}
