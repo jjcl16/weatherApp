@@ -123,9 +123,10 @@ body {
 #footer{
   display: flex;
   flex-direction: column;
-  height: 35vh;
+  height: 45vh;
   width: 100%;
   align-items: center;
+  gap: 3%
 }
 
 #currentInfoContainer {
@@ -165,8 +166,15 @@ body {
 }
 
 .selection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 300px;
+  max-width: 400px;
+  height: 5vh;
   border: 1px solid white;
   border-radius: 8px;
+  background-color: rgba(0,0,0,0.3);
   padding: 0.5%;
   margin: 0.5%;
   color: white;
@@ -178,7 +186,8 @@ body {
 }
 
 #additionalInfo{
-  width: 30%;
+  padding-left: 10%;
+  width: 45%;
   color: white;
   font-weight: bold;
   color: white;
@@ -191,7 +200,7 @@ body {
 
 #forecastContainer{
   display: flex;
-  height: 30vh;
+  height: 38vh;
   width: 80vw;
   overflow-x: auto;
   overflow-y: none;
@@ -200,12 +209,17 @@ body {
 }
 
 .forecastElement{
+  border: 2px solid black;
+  border-radius: 8px;
+  background-color: rgba(255, 253, 253, 0.438);
   flex: 0 0 150px;
-  height: 18vh;
+  min-height: 160px;
+
   margin: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   color: white;
   font-weight: bold;
   text-shadow:  -1px 1px 0 #000,
