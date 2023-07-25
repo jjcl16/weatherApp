@@ -133,7 +133,15 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 40%;
+  width: 50%;
+  color: white;
+  font-weight: bold;
+  color: white;
+  font-weight: bold;
+  text-shadow:  -1px 1px 0 #000,
+                1px 1px 0 #000,
+                1px -1px 0 #000,
+                -1px -1px 0 #000;
 
 }
 
@@ -144,11 +152,12 @@ body {
   align-items: center;
   position: absolute;
   width: 50vw;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   top: -100vh;
   z-index: 0;
   transition: top 1s ;
   border-radius: 8px;
+  
+  
 }
 
 #selectionsContainer.deploy {
@@ -156,14 +165,28 @@ body {
 }
 
 .selection {
-  border: 1px solid black;
+  border: 1px solid white;
   border-radius: 8px;
   padding: 0.5%;
   margin: 0.5%;
+  color: white;
+  font-weight: bold;
+  text-shadow:  -1px 1px 0 #000,
+                1px 1px 0 #000,
+                1px -1px 0 #000,
+                -1px -1px 0 #000;
 }
 
 #additionalInfo{
   width: 30%;
+  color: white;
+  font-weight: bold;
+  color: white;
+  font-weight: bold;
+  text-shadow:  -1px 1px 0 #000,
+                1px 1px 0 #000,
+                1px -1px 0 #000,
+                -1px -1px 0 #000;
 }
 
 #forecastContainer{
@@ -183,6 +206,12 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  color: white;
+  font-weight: bold;
+  text-shadow:  -1px 1px 0 #000,
+                1px 1px 0 #000,
+                1px -1px 0 #000,
+                -1px -1px 0 #000;
 }
 
 img {

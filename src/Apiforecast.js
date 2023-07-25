@@ -116,7 +116,7 @@ async function renderForecast(forecast){
       let datetime = require("node-datetime");
       let newTime = new Date(time);
       let dt = datetime.create(newTime);
-      let formated = dt.format("d n");
+      let formated = dt.format("w d n");
       const date = document.createElement("div");
       date.classList.add("date");
       date.textContent = formated;
