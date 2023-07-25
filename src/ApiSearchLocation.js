@@ -1,19 +1,14 @@
 import {APIKEY_WEATHER_API} from "./ApiCreds";
 //import getCurrentWeather from "./ApiCurrentWeather";
 import getForecast from "./Apiforecast";
+import removeChilds from "./domHelpers";
 
-function removeSidebarChilds(){
-  const selectionsContainer = document.querySelector("#selectionsContainer");  
-  while(selectionsContainer.childElementCount > 0){
-    selectionsContainer.removeChild(selectionsContainer.lastChild);
-  }  
-}
 
 export default async function searchWeatherLocation(e){
   try{    
     const selectionsContainer = document.querySelector("#selectionsContainer"); 
     selectionsContainer.classList.remove("deploy");
-    removeSidebarChilds();
+    removeChilds("#selectionsContainer");
     const valueToSearch = e.target.value;
     const urlSearchApi = "http://api.weatherapi.com/v1/search.json?key=" + APIKEY_WEATHER_API + "&q="+valueToSearch;
     let response = await fetch(urlSearchApi, { mode: "cors"});
@@ -52,7 +47,7 @@ async function callCurrentWeather(e){
   searchBox.value = "";
   const selectionsContainer = document.querySelector("#selectionsContainer");
   selectionsContainer.classList.remove("deploy");
-  removeSidebarChilds();
+  removeChilds("#selectionsContainer");
   await getForecast(valueToSearch)
 }
 

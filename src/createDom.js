@@ -1,9 +1,13 @@
 import searchLocation from "./ApiSearchLocation";
 //import getCurrentWeather from "./ApiCurrentWeather";
 import getForecast from "./Apiforecast";
+import background from "./assets/images/background.jpg";
 
 export default function createDom(){
   const body = document.querySelector("body");
+  body.style.backgroundImage = `url(${background})`;
+  console.log( `url(${background})`);
+
 /** TOP */
 
 
@@ -141,9 +145,9 @@ export default function createDom(){
 
     footer.appendChild(switchDH);
 
-  const forecastConteiner = document.createElement("div");
-    forecastConteiner.setAttribute("id", "forecastConteiner");
-    footer.appendChild(forecastConteiner);
+  const forecastContainer = document.createElement("div");
+    forecastContainer.setAttribute("id", "forecastContainer");
+    footer.appendChild(forecastContainer);
 
 
 /** Default config */

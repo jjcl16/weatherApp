@@ -2,6 +2,7 @@
 import DateTime from "node-datetime/src/datetime";
 import {APIKEY_WEATHER_API} from "./ApiCreds";
 import {imagesDay, imagesNight} from "./imageLoader";
+import removeChilds from "./domHelpers";
 
 
 export default async function getForecast(urlLocation){
@@ -21,7 +22,7 @@ export default async function getForecast(urlLocation){
     renderForecast(forecast.forecast);
     renderCurrentWeather(forecast.current);
     renderLocation(forecast.location);
-    console.log(forecast.forecast);
+    //console.log(forecast.forecast);
   }catch (error){
     console.log(error)
   }  
@@ -29,6 +30,7 @@ export default async function getForecast(urlLocation){
 
 async function renderCurrentWeather(currentWeather){
   try {
+    //console.log(currentWeather);
     const switchSelector = document.querySelector("#switchSelector");
     const temp = document.querySelector("#temp");
     const weatherDescription = document.querySelector("#weatherDescription");
@@ -69,7 +71,7 @@ async function renderCurrentWeather(currentWeather){
       imageSrc = await imagesNight[ImageIcon[ImageIcon.length - 1]].default;
     }
     weatherImage.src = imageSrc;
-    console.log("finish renderCurrentWeather");
+    //console.log("finish renderCurrentWeather");
   } catch (error) {
     console.log(error)
   }
@@ -89,29 +91,43 @@ function renderLocation(currentWeatherLocation){
 async function renderForecast(forecast){
   const rainChance = document.querySelector("#rainChance");
   const arrayOfForecast = forecast.forecastday;
-  rainChance.textContent = `Rain chance: ${arrayOfForecast[0].day.daily_chance_of_rain}%`
-  console.log(arrayOfForecast);
+  rainChance.textContent = `Rain chance: ${arrayOfForecast[0].day.daily_chance_of_rain}%`;
   const switchSelectorDH = document.querySelector("#switchSelectorDH");
   const dailyOrHours = switchSelectorDH.value;
-  const forecastConteiner = document.querySelector("#forecastConteiner");
+  const forecastContainer = document.querySelector("#forecastContainer");
   const switchSelector = document.querySelector("#switchSelector");
   
+  removeChilds("#forecastContainer");
+
   if (dailyOrHours == "D") {
     await  arrayOfForecast.forEach( (day) => {
-      console.log(day.day);
+      //console.log(day.day);
       const newDay = document.createElement("div");
       newDay.classList.add("forecastElement");
 
-      const maxTemp = document.createElement("div");
-      maxTemp.classList.add("maxTemp");
-      const minTemp = document.createElement("div");
-      minTemp.classList.add("minTemp");
+      const tempUmbral = document.createElement("div");
+      tempUmbral.classList.add("tempUmbral");
+
+      const rainChance = document.createElement("div");
+      rainChance.classList.add("rainChance");
+      rainChance.textContent = `Rain chance: ${day.day.daily_chance_of_rain}%`;
+
+      let time = (day.date_epoch + 86400) * 1000 // add a day, and multiply per sencods
+      let datetime = require("node-datetime");
+      let newTime = new Date(time);
+      let dt = datetime.create(newTime);
+      let formated = dt.format("d n");
+      const date = document.createElement("div");
+      date.classList.add("date");
+      date.textContent = formated;
+
+      const descrip = document.createElement("div");
+      descrip.classList.add("descrip");
+      descrip.textContent = day.day.condition.text;
       if( switchSelector.value == "C"){
-        maxTemp.textContent = `Max temp: ${day.day.maxtemp_c} ºC`;
-        minTemp.textContent = `Min temp: ${day.day.mintemp_c} ºC`;
+        tempUmbral.textContent = ` ${day.day.maxtemp_c} - ${day.day.mintemp_c}  ºC`;
       }else if (switchSelector.value == "F"){
-        maxTemp.textContent = `Max temp: ${day.day.maxtemp_f} ºF`;
-        minTemp.textContent = `Min temp: ${day.day.mintemp_f} ºF`;
+        tempUmbral.textContent = ` ${day.day.maxtemp_f} - ${day.day.mintemp_f}  ºF`;
       }      
       const image = new Image;
       image.src = "";
@@ -120,15 +136,121 @@ async function renderForecast(forecast){
       ImageIcon = ImageIcon.split("/");
       const imageSrc = imagesDay[ImageIcon[ImageIcon.length - 1]].default;
       image.src = imageSrc;
-      
+
+      newDay.appendChild(date);
       newDay.appendChild(image);
-      newDay.appendChild(maxTemp);
-      newDay.appendChild(minTemp);
-      forecastConteiner.appendChild(newDay);
+      newDay.appendChild(descrip);
+      newDay.appendChild(tempUmbral);
+      newDay.appendChild(rainChance);
+      forecastContainer.appendChild(newDay);
     } );
 
-    console.log("Daily");
+    //console.log("Daily");
   } else if (dailyOrHours == "H") {
-    console.log("Hours");
+    const now = new Date;
+    const nowHours = now.getHours();
+
+    for (let index = nowHours; index < 24; index++) {
+      const hour = arrayOfForecast[0].hour[index];
+
+      const newDay = document.createElement("div");
+      newDay.classList.add("forecastElement");
+
+      const tempUmbral = document.createElement("div");
+      tempUmbral.classList.add("tempUmbral");
+
+      const rainChance = document.createElement("div");
+      rainChance.classList.add("rainChance");
+      rainChance.textContent = `Rain chance: ${hour.chance_of_rain}%`
+
+
+      //let time = (day.date_epoch + 86400) * 1000 // add a day, and multiply per sencods
+      //let datetime = require("node-datetime");
+      //let newTime = new Date(time);
+      //let dt = datetime.create(newTime);
+      //let formated = dt.format("d n");
+      const date = document.createElement("div");
+      date.classList.add("date");
+      date.textContent = `${index}:00`;
+
+      const descrip = document.createElement("div");
+      descrip.classList.add("descrip");
+      descrip.textContent = hour.condition.text;
+      if( switchSelector.value == "C"){
+        tempUmbral.textContent = ` ${hour.temp_c} ºC`;
+      }else if (switchSelector.value == "F"){
+        tempUmbral.textContent = ` ${hour.temp_f}  ºF`;
+      }      
+      const image = new Image;
+      image.src = "";
+
+      let ImageIcon = hour.condition.icon;
+      ImageIcon = ImageIcon.split("/");
+      let imageSrc;
+      if (hour.is_day){
+        imageSrc = await imagesDay[ImageIcon[ImageIcon.length - 1]].default;
+      } else{
+        imageSrc = await imagesNight[ImageIcon[ImageIcon.length - 1]].default;
+      }
+      image.src = imageSrc;
+
+      newDay.appendChild(date);
+      newDay.appendChild(image);
+      newDay.appendChild(descrip);
+      newDay.appendChild(tempUmbral);
+      newDay.appendChild(rainChance);
+      forecastContainer.appendChild(newDay);       
+      
+    }
+
+    if( nowHours != 0 ){
+      for (let index = 0; index < nowHours; index++) {
+        const hour = arrayOfForecast[1].hour[index];
+  
+        const newDay = document.createElement("div");
+        newDay.classList.add("forecastElement");
+  
+        const tempUmbral = document.createElement("div");
+        tempUmbral.classList.add("tempUmbral");
+  
+        const rainChance = document.createElement("div");
+        rainChance.classList.add("rainChance");
+        rainChance.textContent = `Rain chance: ${hour.chance_of_rain}%`
+
+        const date = document.createElement("div");
+        date.classList.add("date");
+        date.textContent = `${index}:00`;
+  
+        const descrip = document.createElement("div");
+        descrip.classList.add("descrip");
+        descrip.textContent = hour.condition.text;
+        if( switchSelector.value == "C"){
+          tempUmbral.textContent = ` ${hour.temp_c} ºC`;
+        }else if (switchSelector.value == "F"){
+          tempUmbral.textContent = ` ${hour.temp_f}  ºF`;
+        }      
+        const image = new Image;
+        image.src = "";
+  
+        let ImageIcon = hour.condition.icon;
+        ImageIcon = ImageIcon.split("/");
+        let imageSrc;
+        if (hour.is_day){
+          imageSrc = await imagesDay[ImageIcon[ImageIcon.length - 1]].default;
+        } else{
+          imageSrc = await imagesNight[ImageIcon[ImageIcon.length - 1]].default;
+        }
+        image.src = imageSrc;
+  
+        newDay.appendChild(date);
+        newDay.appendChild(image);
+        newDay.appendChild(descrip);
+        newDay.appendChild(tempUmbral);
+        newDay.appendChild(rainChance);
+        forecastContainer.appendChild(newDay);       
+        
+      }
+    }
+
   }
 }
