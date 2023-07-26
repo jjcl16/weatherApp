@@ -10,7 +10,7 @@ export default async function searchWeatherLocation(e){
     selectionsContainer.classList.remove("deploy");
     removeChilds("#selectionsContainer");
     const valueToSearch = e.target.value;
-    const urlSearchApi = "http://api.weatherapi.com/v1/search.json?key=" + APIKEY_WEATHER_API + "&q="+valueToSearch;
+    const urlSearchApi = "https://api.weatherapi.com/v1/search.json?key=" + APIKEY_WEATHER_API + "&q="+valueToSearch;
     let response = await fetch(urlSearchApi, { mode: "cors"});
     let zones = await response.json();
     await insertZonesOnDom(zones);
